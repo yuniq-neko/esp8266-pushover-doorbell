@@ -2,7 +2,7 @@
 
 int confLedPin    = D5; // Configurable - Default External LED Pin
 int confButtonPin = D6; // Configurable - Default Button Pin
-int runningMode   =  1; // Runtime - Define Running Mode (0=Normal; 1=Debug; 2=Config)
+int runningMode   =  0; // Runtime - Define Running Mode (0=Normal; 1=Debug; 2=Config)
 int buttonState   =  0; // Runtime - Define Current Button State
 int brightness    =  0;
 int fadeAmount    =  1;
@@ -12,6 +12,7 @@ void setup() {
   Serial.println("\nYuniq Technologies - ESP8266 Pushover Doorbell");
   Serial.println("Release Version: !Pre-Release");
   pinMode(confButtonPin, INPUT_PULLUP); //TODO: Configurable - Need to make it so this value pulls from a file instead
+  if (digitalRead(confButtonPin) == HIGH) {runningMode = 2;} //Trigger Configuration Mode!
   pinMode(confLedPin, OUTPUT); //TODO: Configurable - Need to make it so this value pulls from a file instead
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.print("Running Mode: " + runningMode);
@@ -21,7 +22,7 @@ void setup() {
 }
 
 void loop() {
-  //if (runningMode==1){Serial.println("Started Loop");}
+  if (runningMode==1){Serial.println("Started Loop");}
   int buttonState = digitalRead(confButtonPin);
   if (buttonState == HIGH) {
     if (runningMode==1){Serial.print("Button Pressed!\nRaw Analog Value was: ");Serial.println(analogRead(confButtonPin));}
@@ -42,5 +43,5 @@ void loop() {
       fadeAmount = -fadeAmount;
     }
   delay(5);
-  //if (runningMode==1){Serial.println("Finished Loop");}
+  if (runningMode==1){Serial.println("Finished Loop");}
 }
