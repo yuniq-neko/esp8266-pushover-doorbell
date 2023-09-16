@@ -22,26 +22,33 @@ void setup() {
 }
 
 void loop() {
-  if (runningMode==1){Serial.println("Started Loop");}
-  int buttonState = digitalRead(confButtonPin);
-  if (buttonState == HIGH) {
-    if (runningMode==1){Serial.print("Button Pressed!\nRaw Analog Value was: ");Serial.println(analogRead(confButtonPin));}
-    int loops = 0;
-    while (loops <= 5) {
-      digitalWrite(LED_BUILTIN, HIGH); digitalWrite(confLedPin, HIGH);
-      delay(100);
-      digitalWrite(LED_BUILTIN, LOW); digitalWrite(confLedPin, LOW);
-      delay(100);
-      loops = loops + 1;}
-    brightness = 0;
-    fadeAmount = 1;
+  if (runningMode!=2) {
+    if (runningMode==1){Serial.println("Started Loop");}
+    int buttonState = digitalRead(confButtonPin);
+    if (buttonState == HIGH) {
+      if (runningMode==1){Serial.print("Button Pressed!\nRaw Analog Value was: ");Serial.println(analogRead(confButtonPin));}
+      int loops = 0;
+      while (loops <= 5) {
+        digitalWrite(LED_BUILTIN, HIGH); digitalWrite(confLedPin, HIGH);
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW); digitalWrite(confLedPin, LOW);
+        delay(100);
+        loops = loops + 1;}
+      brightness = 0;
+      fadeAmount = 1;
+    } else {
+      analogWrite(LED_BUILTIN, brightness);
+      analogWrite(confLedPin, brightness);}
+      brightness = brightness + fadeAmount;
+      if (brightness <= 0 || brightness >= 255) {
+        fadeAmount = -fadeAmount;
+      }
+    delay(5);
+    if (runningMode==1){Serial.println("Finished Loop");}
   } else {
-    analogWrite(LED_BUILTIN, brightness);
-    analogWrite(confLedPin, brightness);}
-    brightness = brightness + fadeAmount;
-    if (brightness <= 0 || brightness >= 255) {
-      fadeAmount = -fadeAmount;
-    }
-  delay(5);
-  if (runningMode==1){Serial.println("Finished Loop");}
+        digitalWrite(LED_BUILTIN, HIGH); digitalWrite(confLedPin, HIGH);
+        delay(25);
+        digitalWrite(LED_BUILTIN, LOW); digitalWrite(confLedPin, LOW);
+        delay(25);
+  }
 }
