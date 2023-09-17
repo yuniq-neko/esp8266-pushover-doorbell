@@ -46,9 +46,9 @@ void loop() {
     delay(5);
     if (runningMode==1){Serial.println("Finished Loop");}
   } else {
-        digitalWrite(LED_BUILTIN, HIGH); digitalWrite(confLedPin, HIGH);
-        delay(25);
-        digitalWrite(LED_BUILTIN, LOW); digitalWrite(confLedPin, LOW);
-        delay(25);
+        digitalWrite(LED_BUILTIN, HIGH); digitalWrite(confLedPin, HIGH);delay(100);
+        digitalWrite(LED_BUILTIN, LOW); digitalWrite(confLedPin, LOW);delay(100);
+        digitalWrite(LED_BUILTIN, HIGH); digitalWrite(confLedPin, HIGH);delay(100);
+        digitalWrite(LED_BUILTIN, LOW); digitalWrite(confLedPin, LOW);delay(500);
   }
 }
